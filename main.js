@@ -1,38 +1,36 @@
-document.addEventListener('DOMContentLoaded', () => {
+width = 960,
+height = 500;
+
+async function first() {
   
-  var weather = d3.csv("data/weather.csv", function(data){
+  weather = await d3.csv("https://raw.githubusercontent.com/apearsall20/SciViz/master/data/weather.csv");
+  maps_temp = await d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson");
+  maps = maps_temp.features;
 
-  console.log(data)
-});
+  console.log(weather[0]);
+  console.log(maps[0]);
+	var svg = d3.select("#Viz");
 
-	var svg = d3.select("#Viz"),
-    width = 960,
-    height = 500;
-    svg.attr("width",width).attr("height",height)
+    svg.attr("width",width).attr("height",height);
 // Map and projection
 	var projection = d3.geoMercator()
     .center([-96, 38])                // GPS of location to zoom on
     .scale(770)                       // This is like the zoom
     .translate([ width/2, height/2 ])
 
-// Load external data and boot
-    d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson", function(data){
-
-    // Filter data
-//    data.features = data.features.filter(function(d){; return d.properties.name=="USA"})
 
     // Draw the map
     svg.append("g")
         .selectAll("path")
-        .data(data.features)
+        .data(maps)
         .enter()
         .append("path")
-          .attr("fill", "grey")
+          .attr("fill", "green")
           .attr("d", d3.geoPath()
               .projection(projection)
           )
-       .style("stroke", "black")
-;
-	})
-
-})
+       .style("stroke", "black");
+}
+document.addEventListener('DOMContentLoaded', () => {
+  first();
+});

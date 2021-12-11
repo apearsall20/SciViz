@@ -1,3 +1,14 @@
 body{
   background-color: rgb(253,253,253);
 }
+
+svg{
+	border: solid 3px black;
+	fill: blue;
+	background-color: rgb(0,0,255);
+}
+
+h1{
+	margin: auto;
+	text-align: center;
+}
